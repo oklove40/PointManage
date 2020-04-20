@@ -12,13 +12,21 @@
           <span class="label">로그인</span>
         </a>
 
-        <a mat-list-item>
-          <mat-icon class="icon">person</mat-icon>
-            <span class="label">내정보</span>
+        <a mat-list-item [routerLink]="['/order']" [routerLinkActive]="['link-active']" *ngIf="currentUser">
+          <mat-icon class="icon">store</mat-icon>
+            <span class="label">주문</span>
         </a>
-        <a mat-list-item>
+        <a mat-list-item [routerLink]="['/menu']" [routerLinkActive]="['link-active']" *ngIf="currentUser">
+          <mat-icon class="icon">restaurant_menu</mat-icon>
+          <span class="label">메뉴</span>
+        </a>
+        <a mat-list-item [routerLink]="['/user']" [routerLinkActive]="['link-active']" *ngIf="currentUser">
           <mat-icon class="icon">dashboard</mat-icon>
-          <span class="label">게시판</span>
+          <span class="label">사용자</span>
+        </a>
+        <a mat-list-item [routerLink]="['/shop']" [routerLinkActive]="['link-active']" *ngIf="currentUser">
+          <mat-icon class="icon">store</mat-icon>
+          <span class="label">상점</span>
         </a>
 
         <a mat-list-item (click)="logout()" [routerLinkActive]="['link-active']" *ngIf="currentUser">
@@ -55,16 +63,28 @@
                 <span class="label">로그아웃1</span>
               </a>
             </li>
-            <li>
+            <li [routerLink]="['/order']" [routerLinkActive]="['link-active']" *ngIf="currentUser">
               <a>
-                <mat-icon class="icon">person</mat-icon>
-                <span class="label">내정보1</span>
+                <mat-icon class="icon">store</mat-icon>
+                <span class="label">주문</span>
               </a>
             </li>
-            <li>
+            <li [routerLink]="['/menu']" [routerLinkActive]="['link-active']" *ngIf="currentUser">
+              <a>
+                <mat-icon class="icon">restaurant_menu</mat-icon>
+                <span class="label">메뉴</span>
+              </a>
+            </li>
+            <li [routerLink]="['/user']" [routerLinkActive]="['link-active']" *ngIf="currentUser">
               <a>
                 <mat-icon class="icon">dashboard</mat-icon>
-                <span class="label">게시판1</span>
+                <span class="label">사용자</span>
+              </a>
+            </li>
+            <li [routerLink]="['/shop']" [routerLinkActive]="['link-active']" *ngIf="currentUser">
+              <a>
+                <mat-icon class="icon">store</mat-icon>
+                <span class="label">상점</span>
               </a>
             </li>
           </ul>

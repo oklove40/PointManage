@@ -48,6 +48,21 @@ export class AuthService implements OnDestroy {
       return !!this.userSubject.value;
   }
 
+  public check()
+  {
+    this.logger.log("auth.check");
+    this.headers.append('Authorization', this.currentUserValue.token);
+
+    return this.http.get(this.apiUrl + 'LoginTokenCheck', { headers: this.headers })
+            .pipe(
+              tap((data) => console.log(data)),
+              map((res: any) => {
+                const sid = res.message;
+                return sid;
+              })
+            );
+  }
+
   public login(email: string, password: string, remeberMe: boolean = false) 
   {
     this.logger.log("Signing in as: " + email);

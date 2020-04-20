@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IUser, AuthService } from './common/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ export class AppComponent {
   currentUser: IUser;
 
   constructor(
-    private authSvc: AuthService
+    private authSvc: AuthService,
+    private router: Router,
   ) {
     this.authSvc
       .currentUser
@@ -23,6 +25,7 @@ export class AppComponent {
   logout() {
     this.authSvc.logout();
     alert('로그아웃 되었습니다.');
+    this.router.navigate(['/']);
   }
 
 }
