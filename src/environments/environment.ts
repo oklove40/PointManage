@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:44313/v1/StoreManageApi',
+  baseUrl: 'http://localhost:9991/',
   title: 'Shop Order manage',
 };
 

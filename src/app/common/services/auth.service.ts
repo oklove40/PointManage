@@ -25,7 +25,7 @@ export class AuthService implements OnDestroy {
     private logger: LoggerService
   ) {
     // TODO: url 확인
-    this.apiUrl = this.baseUrl + 'api/Auth';
+    this.apiUrl = this.baseUrl;
     this.headers = new HttpHeaders();
     this.headers = this.headers.append('Content-type', 'application/json');
 
@@ -58,7 +58,7 @@ export class AuthService implements OnDestroy {
         refreshToken: '',
     }
 
-    return this.http.post(this.apiUrl, data, { headers: this.headers })
+    return this.http.post(this.apiUrl + 'Login', data, { headers: this.headers })
         .pipe(
             tap((data) => console.log(data)),
             map((res: any) => {
