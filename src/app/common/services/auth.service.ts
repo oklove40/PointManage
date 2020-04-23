@@ -31,6 +31,8 @@ export class AuthService implements OnDestroy {
 
     this.userSubject = new BehaviorSubject<IUser>(JSON.parse(localStorage.getItem(_token_key)));
     this.currentUser = this.userSubject.asObservable();
+ 
+    console.log('apiUrl:', this.apiUrl);
   }
 
   ngOnDestroy(): void 
@@ -51,13 +53,23 @@ export class AuthService implements OnDestroy {
   public check()
   {
     this.logger.log("auth.check");
+
+    //  TODO: 작업중
+    
     this.headers.append('Authorization', this.currentUserValue.token);
+
+    console.log('headers : ', this.headers);
+
+    console.log('currentUserValue.token : ', this.currentUserValue.token);
 
     return this.http.get(this.apiUrl + 'LoginTokenCheck', { headers: this.headers })
             .pipe(
-              tap((data) => console.log(data)),
+              tap((data) => console.log('check:', data)),
               map((res: any) => {
                 const sid = res.message;
+
+                console.log('check-sid:', sid);
+
                 return sid;
               })
             );

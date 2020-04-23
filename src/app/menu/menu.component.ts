@@ -1,3 +1,4 @@
+import { AuthService } from './../common/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
@@ -18,16 +19,24 @@ export class MenuComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private mnuSvc: MenuService,
+    private authSvc: AuthService,
     private route: ActivatedRoute,
-  ) { }
+  ) { 
+    let result = this.authSvc.check();
+    console.log('result : ', result);
+    
+    this.sid = result as any;
+  }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.sid = params['sid'];
-      console.log(params['mid']);
+    // this.route.queryParams.subscribe(params => {
+    //   this.sid = params['sid'];
+    //   console.log(params['mid']);
 
-      this.mid = params['mid'] == null ? 0 : params['mid'];
-    });
+    //   this.mid = params['mid'] == null ? 0 : params['mid'];
+    // });
+
+    console.log('sid:', this.sid);
 
     this.getMenuList(this.sid);
   }
@@ -54,7 +63,7 @@ export class MenuComponent implements OnInit {
 
   getMenuList(sid: number) {
 
-    // console.log('getMenuList : ', sid);
+    console.log('getMenuList : ', sid);
 
     if (sid !== null)
     {
