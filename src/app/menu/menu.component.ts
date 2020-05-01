@@ -1,3 +1,4 @@
+import { IResponse } from './../common/models/IResponse';
 import { AuthService } from './../common/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -15,6 +16,8 @@ export class MenuComponent implements OnInit {
   mid: number = 0;
   menus: Array<IMenu> = [];
   msg: string = '테스트';
+  rtn: IResponse = null;
+
 
   constructor(
     private dialog: MatDialog,
@@ -22,23 +25,18 @@ export class MenuComponent implements OnInit {
     private authSvc: AuthService,
     private route: ActivatedRoute,
   ) { 
-    let result = this.authSvc.check();
-    console.log('result : ', result);
-    
-    this.sid = result as any;
   }
 
   ngOnInit(): void {
-    // this.route.queryParams.subscribe(params => {
-    //   this.sid = params['sid'];
-    //   console.log(params['mid']);
 
-    //   this.mid = params['mid'] == null ? 0 : params['mid'];
-    // });
+    this.authSvc.getShop()
+                      .subscribe(res => {
+                        console.log('subscribe-res:', res);
 
-    console.log('sid:', this.sid);
+                        this.sid = Number(res.message);
 
-    this.getMenuList(this.sid);
+                        this.getMenuList(this.sid);
+                      });
   }
 
   openDialog() {
@@ -76,7 +74,7 @@ export class MenuComponent implements OnInit {
       this.mnuSvc
           .getMenu(params)
           .subscribe(res => {
-            console.log('res:', res);
+            // console.log('res:', res);
             this.menus = res as Array<IMenu>;
           });
 

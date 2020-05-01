@@ -1,9 +1,11 @@
 import { LoggerService } from './logger.service';
 import { Injectable, Inject, PLATFORM_ID, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
+import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { map, tap, catchError, shareReplay } from 'rxjs/operators';
 import { environment as ENV } from '../../../environments/environment';
+import { CmnService } from './cmn.service';
+import { IResponse } from '../models/IResponse';
 
 const _token_key = "user";
 
@@ -22,7 +24,8 @@ export class AuthService implements OnDestroy {
   constructor
   (
     private http: HttpClient,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private cmnSvc: CmnService
   ) {
     // TODO: url 확인
     this.apiUrl = this.baseUrl;
@@ -32,7 +35,6 @@ export class AuthService implements OnDestroy {
     this.userSubject = new BehaviorSubject<IUser>(JSON.parse(localStorage.getItem(_token_key)));
     this.currentUser = this.userSubject.asObservable();
  
-    console.log('apiUrl:', this.apiUrl);
   }
 
   ngOnDestroy(): void 
@@ -50,29 +52,13 @@ export class AuthService implements OnDestroy {
       return !!this.userSubject.value;
   }
 
-  public check()
-  {
-    this.logger.log("auth.check");
+  public getShop(): Observable<IResponse> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', 'Bearer ' + this.currentUserValue.token);
 
-    //  TODO: 작업중
-    
-    this.headers.append('Authorization', this.currentUserValue.token);
-
-    console.log('headers : ', this.headers);
-
-    console.log('currentUserValue.token : ', this.currentUserValue.token);
-
-    return this.http.get(this.apiUrl + 'LoginTokenCheck', { headers: this.headers })
-            .pipe(
-              tap((data) => console.log('check:', data)),
-              map((res: any) => {
-                const sid = res.message;
-
-                console.log('check-sid:', sid);
-
-                return sid;
-              })
-            );
+    return this.http.get<IResponse>(`${this.apiUrl}LoginTokenCheck`, { headers })
+      .pipe(shareReplay());
   }
 
   public login(email: string, password: string, remeberMe: boolean = false) 
@@ -89,7 +75,7 @@ export class AuthService implements OnDestroy {
         .pipe(
             tap((data) => console.log(data)),
             map((res: any) => {
-                const user = res.result;
+                const user = res;
                 this.handleTokenResponse(user);
                 return user;
             }));
