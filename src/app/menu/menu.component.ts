@@ -28,26 +28,31 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.authSvc.getShop()
                       .subscribe(res => {
-                        console.log('subscribe-res:', res);
-
                         this.sid = Number(res.message);
-
                         this.getMenuList(this.sid);
                       });
   }
 
-  openDialog() {
+  openDialog(menus: any) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    
+    dialogConfig.minWidth = "90%";
+    dialogConfig.minHeight = "90%";
+
+    dialogConfig.position = {
+      'top' : '10',
+      'left' : '10'
+    };
 
     dialogConfig.data = {
-      id: 1,
-      title: 'Angular For Beginners'
+      id: this.sid,
+      title: 'Menu List',
+      menus: menus
     };
 
     this.dialog.open(MenuViewComponent, dialogConfig);
@@ -60,8 +65,7 @@ export class MenuComponent implements OnInit {
   }
 
   getMenuList(sid: number) {
-
-    console.log('getMenuList : ', sid);
+    // console.log('getMenuList : ', sid);
 
     if (sid !== null)
     {
@@ -83,13 +87,13 @@ export class MenuComponent implements OnInit {
 
   getMenu(sid: number, mid: number) {
 
-    // console.log('getMenu : ', sid, mid);
+    console.log('getMenu : ', sid, mid);
 
     if (sid !== null)
     {
       var params = {
-        'sid': this.sid,
-        'mid': this.mid
+        'sid': sid,
+        'mid': mid
       };
 
       // console.log('getMenuList-params : ', params);
@@ -98,8 +102,12 @@ export class MenuComponent implements OnInit {
           .getMenuDetail(params)
           .subscribe(res => {
             console.log('res:', res);
-            this.menus = res as Array<IMenu>;
+            
+            this.openDialog(res);
+            // this.menus = [];
+            // this.menus = res as Array<IMenu>;
           });
+
 
     }
   }

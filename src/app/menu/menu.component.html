@@ -1,12 +1,17 @@
-<p>menu works!</p>
-msg : {{msg}}
-
+<!--
 <div>
     <button mat-raised-button (click)="openDialog()">Open modal</button>
 </div>
+-->
 
-<div>
-    <ul *ngFor="let menu of menus">
-        <li>Name : {{menu.menu_name}}/ Price:{{menu.price}} // Size:{{menu.size}}</li>
+<div id="menu">
+    <h1>메뉴목록</h1>
+    <ul>
+        <li *ngFor="let menu of menus">
+            <span>Name   : {{menu.menu_name}}</span><br />
+            <span>Price  : {{menu.price}}</span>&nbsp;&nbsp;
+            <span>Size   : {{menu.size}}</span>&nbsp;&nbsp;
+            <span><button mat-raised-button (click)="getMenu(menu.shop_idx, menu.menu_idx)">상세</button></span>
+        </li>
     </ul>
 </div>

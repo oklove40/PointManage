@@ -1,7 +1,22 @@
-<p>menu-view works!</p>
-<h2 mat-dialog-title>{{description}}</h2>
+<p>{{menu.menu_name}}</p>
+<h2 mat-dialog-title>{{menu.description}}</h2>
+
+<div id="menu">
+    <table>
+        <tr>
+            <td>Price</td>
+            <td>{{menu.price}}</td>
+        </tr>
+        <tr>
+            <td>Size</td>
+            <td>{{menu.size}}</td>
+        </tr>
+    </table>
+</div>
 
 <mat-dialog-actions>
     <button class="mat-raised-button"(click)="close()">Close</button>
+    <!--
     <button class="mat-raised-button mat-primary"(click)="save()">Save</button>
+    -->
 </mat-dialog-actions>
