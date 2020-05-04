@@ -87,7 +87,7 @@ export class MenuComponent implements OnInit {
 
   getMenu(sid: number, mid: number) {
 
-    console.log('getMenu : ', sid, mid);
+    // console.log('getMenu : ', sid, mid);
 
     if (sid !== null)
     {
@@ -101,7 +101,7 @@ export class MenuComponent implements OnInit {
       this.mnuSvc
           .getMenuDetail(params)
           .subscribe(res => {
-            console.log('res:', res);
+            // console.log('res:', res);
             
             this.openDialog(res);
             // this.menus = [];
